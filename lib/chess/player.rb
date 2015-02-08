@@ -1,6 +1,6 @@
 module Chess
   class Player
-    attr_accessor :name, :color
+    attr_reader :name, :color
     
     def initialize(input)
       @name = input.fetch(:name)
