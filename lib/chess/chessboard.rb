@@ -1,5 +1,5 @@
 module Chess
-  class Board
+  class Chessboard
     attr_reader :grid
 
     def initialize(input = {})
