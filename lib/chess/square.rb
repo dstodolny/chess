@@ -1,5 +1,5 @@
 module Chess
-  class Cell
+  class Square
     attr_reader :value
 
     def initialize

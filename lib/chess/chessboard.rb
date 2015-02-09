@@ -9,7 +9,7 @@ module Chess
     private
 
     def default_grid
-      Array.new(8) { Array.new(8) { Cell.new } }
+      Array.new(8) { Array.new(8) { Square.new } }
     end
   end
 end

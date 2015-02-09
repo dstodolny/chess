@@ -16,5 +16,16 @@ module Chess
         end
       end
     end
+
+    context "#grid" do
+      it "returns the grid" do
+        chessboard = Chessboard.new(grid: "foobar")
+        expect(chessboard.grid).to eq "foobar"
+      end
+    end
+
+    context "#get_square" do
+
+    end
   end
 end
