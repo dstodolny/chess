@@ -7,6 +7,8 @@ module Chess
     end
 
     def get_square(coordinates)
+      return false unless coordinates.match(/^[a-hA-H][1-8]$/)
+      
       chessboard_num = {
         "A" => 0, "B" => 1, "C" => 2, "D" => 3,
         "E" => 4, "F" => 5, "G" => 6, "H" => 7,
@@ -14,7 +16,6 @@ module Chess
         "5" => 4, "6" => 5, "7" => 6, "8" => 7
       }
 
-      return false unless coordinates.match(/^[a-hA-H][1-8]$/)
       row = chessboard_num[coordinates[1]]
       col = chessboard_num[coordinates[0]]
 
