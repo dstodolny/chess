@@ -8,7 +8,7 @@ module Chess
 
     def get_square(coordinates)
       return false unless coordinates.match(/^[a-hA-H][1-8]$/)
-      
+
       chessboard_num = {
         "A" => 0, "B" => 1, "C" => 2, "D" => 3,
         "E" => 4, "F" => 5, "G" => 6, "H" => 7,
@@ -26,11 +26,6 @@ module Chess
 
     def default_grid
       Array.new(8) { Array.new(8) { Square.new } }
-    end
-
-    def to_row(letter)
-      letters = 
-      letter.to_i % 26
     end
   end
 end
