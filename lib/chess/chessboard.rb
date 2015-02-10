@@ -22,6 +22,10 @@ module Chess
       @grid[row][col]
     end
 
+    def set_square(coordinates, value)
+      get_square(coordinates).value = value
+    end
+
     private
 
     def default_grid

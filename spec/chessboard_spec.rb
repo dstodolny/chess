@@ -42,5 +42,15 @@ module Chess
         expect(chessboard.get_square("A11")).to be false
       end
     end
+
+    context "#set_square" do
+      it "updates the value of the square at the chess coordinate" do
+        Dummy = Struct.new(:value)
+        grid = [[Dummy.new("foo"), "", ""], ["", "", ""], ["", "", ""]]
+        chessboard = Chessboard.new(grid: grid)
+        chessboard.set_square("A1", "bar")
+        expect(chessboard.get_square("A1").value).to eq "bar"
+      end
+    end
   end
 end
