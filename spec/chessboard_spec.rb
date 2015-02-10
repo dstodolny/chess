@@ -26,9 +26,10 @@ module Chess
 
     context "#get_square" do
       it "returns the square based on the chess coordinate system" do
-        grid = [["", "", ""], ["", "", "foobar"], ["", "", ""]]
+        grid = [["foo", "", ""], ["", "", "bar"], ["", "", ""]]
         chessboard = Chessboard.new(grid: grid)
-        expect(chessboard.get_square("C2")).to eq "foobar"
+        expect(chessboard.get_square("C2")).to eq "bar"
+        expect(chessboard.get_square("A1")).to eq "foo"
       end
 
       it "returns false when used with wrong argument" do
@@ -43,13 +44,25 @@ module Chess
       end
     end
 
+    Dummy = Struct.new(:value)
+
     context "#set_square" do
       it "updates the value of the square at the chess coordinate" do
-        Dummy = Struct.new(:value)
+
         grid = [[Dummy.new("foo"), "", ""], ["", "", ""], ["", "", ""]]
         chessboard = Chessboard.new(grid: grid)
         chessboard.set_square("A1", "bar")
         expect(chessboard.get_square("A1").value).to eq "bar"
+      end
+    end
+
+    context "#move" do
+      it "moves the value of the square from one position to another" do
+        grid = [[Dummy.new("foo"), "", ""], [Dummy.new(""), "", ""], ["", "", ""]]
+        chessboard = Chessboard.new(grid: grid)
+        chessboard.move("A1", "A2")
+        expect(chessboard.get_square("A1").value).to eq ""
+        expect(chessboard.get_square("A2").value).to eq "foo"
       end
     end
   end

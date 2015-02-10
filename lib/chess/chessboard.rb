@@ -26,6 +26,11 @@ module Chess
       get_square(coordinates).value = value
     end
 
+    def move(from, to)
+      set_square(to, get_square(from).value)
+      set_square(from, "")
+    end
+
     private
 
     def default_grid
