@@ -64,6 +64,12 @@ module Chess
         expect(chessboard.get_square("A1").value).to eq ""
         expect(chessboard.get_square("A2").value).to eq "foo"
       end
+
+      it "prevents from moving the value of the square to the same position" do
+        grid = [[Dummy.new("foo"), "", ""], ["", "", ""], ["", "", ""]]
+        chessboard = Chessboard.new(grid: grid)
+        expect(chessboard.move("A1", "A1")).to be false
+      end
     end
   end
 end

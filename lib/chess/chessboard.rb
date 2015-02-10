@@ -27,6 +27,8 @@ module Chess
     end
 
     def move(from, to)
+      return false unless from != to && get_square(from) && get_square(to)
+
       set_square(to, get_square(from).value)
       set_square(from, "")
     end
