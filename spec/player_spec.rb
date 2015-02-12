@@ -1,17 +1,17 @@
 module Chess
   describe Player do
-    it { should respond_to :name }
-    it { should respond_to :color }
+    it { is_expected.to respond_to :name }
+    it { is_expected.to respond_to :color }
 
     let(:player) { Player.new(name: "George", color: :black) }
 
-    context "#name" do
+    describe "#name" do
       it "returns player's name" do
         expect(player.name).to eq "George"
       end
     end
 
-    context "#color" do
+    describe "#color" do
       it "returns player's color" do
         expect(player.color).to eq :black
       end
