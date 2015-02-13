@@ -3,7 +3,7 @@ module Chess
     board = [["foo", " ", " "], [" ", "bar", " "], [" ", " ", "baz"]]
     let(:chessboard) { Chessboard.new(board: board) }
 
-    it { should respond_to :board }
+    it { is_expected.to respond_to :board }
 
     describe "#initialize" do
       it "sets the board with eight rows by default" do
@@ -43,21 +43,5 @@ module Chess
         it { expect(chessboard.move("A11", "BB1")).to be false }
       end
     end
-
-    # private methods
-
-    # describe "#set_square" do
-    #   it "replaces a square with a new thing" do
-    #     chessboard.set_square("B2", "foo")
-    #     expect(chessboard.get_square("B2")).to eq "foo"
-    #   end
-    # end
-
-    # describe "#clear_square" do
-    #   it "inserts a whitespace character to a square" do
-    #     chessboard.clear_square("A1")
-    #     expect(chessboard.get_square("A1")).to eq " "
-    #   end
-    # end
   end
 end
