@@ -44,7 +44,45 @@ module Chess
     end
 
     def default_board
-      Array.new(8) { Array.new(8) { " " } }
+      board = Array.new(8) { Array.new(8) { " " } }
+
+      board[0][0] = Rook.new(color: :white, location: "A1")
+      board[0][1] = Knight.new(color: :white, location: "B1")
+      board[0][2] = Bishop.new(color: :white, location: "C1")
+      board[0][3] = Queen.new(color: :white, location: "D1")
+      board[0][4] = King.new(color: :white, location: "E1")
+      board[0][5] = Bishop.new(color: :white, location: "F1")
+      board[0][6] = Knight.new(color: :white, location: "G1")
+      board[0][7] = Rook.new(color: :white, location: "H1")
+
+      board[1][0] = Pawn.new(color: :white, location: "A2")
+      board[1][1] = Pawn.new(color: :white, location: "B2")
+      board[1][2] = Pawn.new(color: :white, location: "C2")
+      board[1][3] = Pawn.new(color: :white, location: "D2")
+      board[1][4] = Pawn.new(color: :white, location: "E2")
+      board[1][5] = Pawn.new(color: :white, location: "F2")
+      board[1][6] = Pawn.new(color: :white, location: "G2")
+      board[1][7] = Pawn.new(color: :white, location: "H2")
+
+      board[6][0] = Pawn.new(color: :black, location: "A7")
+      board[6][1] = Pawn.new(color: :black, location: "B7")
+      board[6][2] = Pawn.new(color: :black, location: "C7")
+      board[6][3] = Pawn.new(color: :black, location: "D7")
+      board[6][4] = Pawn.new(color: :black, location: "E7")
+      board[6][5] = Pawn.new(color: :black, location: "F7")
+      board[6][6] = Pawn.new(color: :black, location: "G7")
+      board[6][7] = Pawn.new(color: :black, location: "H7")
+
+      board[7][0] = Rook.new(color: :black, location: "A8")
+      board[7][1] = Knight.new(color: :black, location: "B8")
+      board[7][2] = Bishop.new(color: :black, location: "C8")
+      board[7][3] = Queen.new(color: :black, location: "D8")
+      board[7][4] = King.new(color: :black, location: "E8")
+      board[7][5] = Bishop.new(color: :black, location: "F8")
+      board[7][6] = Knight.new(color: :black, location: "G8")
+      board[7][7] = Rook.new(color: :black, location: "H8")
+
+      board
     end
   end
 end
