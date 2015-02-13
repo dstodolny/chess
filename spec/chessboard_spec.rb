@@ -33,14 +33,14 @@ module Chess
       end
 
       context "with invalid move" do
-        it { expect(chessboard.move("C3", "C3")).to be false }
-        it { expect(chessboard.move("I9", "I8")).to be false }
-        it { expect(chessboard.move("99", "98")).to be false }
-        it { expect(chessboard.move("AA", "BB")).to be false }
-        it { expect(chessboard.move("", "")).to be false }
-        it { expect(chessboard.move("abcdefg", "ijklmno")).to be false }
-        it { expect(chessboard.move("1234567", "7654321")).to be false }
-        it { expect(chessboard.move("A11", "BB1")).to be false }
+        it { expect(chessboard.move("C3", "C3")).to be_falsey }
+        it { expect(chessboard.move("I9", "I8")).to be_falsey }
+        it { expect(chessboard.move("99", "98")).to be_falsey }
+        it { expect(chessboard.move("AA", "BB")).to be_falsey }
+        it { expect(chessboard.move("", "")).to be_falsey }
+        it { expect(chessboard.move("abcdefg", "ijklmno")).to be_falsey }
+        it { expect(chessboard.move("1234567", "7654321")).to be_falsey }
+        it { expect(chessboard.move("A11", "BB1")).to be_falsey }
       end
     end
   end
