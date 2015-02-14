@@ -21,6 +21,18 @@ module Chess
         it { expect(white_pawn.valid_move?(chessboard, "B4")).to be_truthy }
       end
 
+      context "when moving backward to an empty square" do
+        let(:white_pawn) { Pawn.new(color: :white, location: "D5") }
+        let(:black_pawn) { Pawn.new(color: :black, location: "E5") }
+        before do
+          chessboard.set_square("D5", white_pawn)
+          chessboard.set_square("E5", black_pawn)
+        end
+
+        it { expect(white_pawn.valid_move?(chessboard, "D4")).to be_falsey }
+        it { expect(black_pawn.valid_move?(chessboard, "E6")).to be_falsey }
+      end
+
       context "when moving forward to a blocked square" do
         let(:white_pawn) { chessboard.get_square("B2") }
         before { chessboard.set_square("B3", Pawn.new(color: :white, location: "B3")) }
@@ -70,6 +82,15 @@ module Chess
 
       it { expect(white_pawn_1.friendly_piece?(white_pawn_2)).to be_truthy }
       it { expect(white_pawn_1.friendly_piece?(black_pawn)).to be_falsey }
+    end
+
+    describe "#enemy_piece?" do
+      let(:white_pawn_1) { Pawn.new(color: :white, location: "A2") }
+      let(:white_pawn_2) { Pawn.new(color: :white, location: "B2") }
+      let(:black_pawn) { Pawn.new(color: :black, location: "A7") }
+
+      it { expect(white_pawn_1.enemy_piece?(white_pawn_2)).to be_falsey }
+      it { expect(white_pawn_1.enemy_piece?(black_pawn)).to be_truthy }
     end
   end
 

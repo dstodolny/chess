@@ -12,18 +12,22 @@ module Chess
 
     def valid_move?(chessboard, to)
       if to == location
-        false
+        return false
       elsif friendly_piece?(chessboard.get_square(to))
-        false
+        return false
       elsif chessboard.path_blocked?(location, to)
-        false
+        return false
       else
-        true
+        return true
       end
     end
 
     def friendly_piece?(piece)
       piece.color == color if piece.is_a?(Piece)
+    end
+
+    def enemy_piece?(piece)
+      piece.color != color if piece.is_a?(Piece)
     end
   end
 
@@ -33,6 +37,20 @@ module Chess
     end
 
     def valid_move?(chessboard, to)
+      x_from, y_from = get_xy(location)
+      x_to, y_to = get_xy(to)
+      square = chessboard.get_square(to)
+      side = color == :white ? 1 : -1
+
+      dx = distance(x_from, x_to)
+      dy = distance(y_from, y_to)
+
+      if dx == 0 && dy == 1 && (side * (y_to - y_from)) > 0 && square == " "
+      elsif dx == 0 && dy == 2 && (y_from == 1 || y_from == 6)
+      elsif dx == 1 && dy == 1 && enemy_piece?(square)
+      else
+        return false
+      end
       super
     end
   end

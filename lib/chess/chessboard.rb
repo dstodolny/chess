@@ -34,8 +34,8 @@ module Chess
       x_dir = direction(x_from, x_to)
       y_dir = direction(y_from, y_to)
 
-      dx = (x_from - x_to).abs
-      dy = (y_from - y_to).abs
+      dx = distance(x_from, x_to)
+      dy = distance(y_from, y_to)
 
       if same_square?(dx, dy)
         squares << board[y_from][x_from]

@@ -14,6 +14,10 @@ module Chess
 
       [x, y]
     end
+
+    def distance(from, to)
+      (from - to).abs
+    end
   end
 end
 
