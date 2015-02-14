@@ -1,11 +1,29 @@
 module Chess
   class Piece
+    include ChessHelper
+
     attr_accessor :location
     attr_reader :color
 
     def initialize(input = {})
       @color = input.fetch(:color, :white)
       @location = input.fetch(:location, "A1")
+    end
+
+    def valid_move?(chessboard, to)
+      if to == location
+        false
+      elsif friendly_piece?(chessboard.get_square(to))
+        false
+      elsif chessboard.path_blocked?(location, to)
+        false
+      else
+        true
+      end
+    end
+
+    def friendly_piece?(piece)
+      piece.color == color if piece.is_a?(Piece)
     end
   end
 
@@ -15,7 +33,7 @@ module Chess
     end
 
     def valid_move?(chessboard, to)
-      true
+      super
     end
   end
 

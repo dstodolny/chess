@@ -1,5 +1,7 @@
 module Chess
   class Chessboard
+    include ChessHelper
+
     attr_reader :board
 
     def initialize(input = {})
@@ -24,23 +26,60 @@ module Chess
       board[y][x] = value
     end
 
+    def get_squares(from, to)
+      squares = []
+      x_from, y_from = get_xy(from)
+      x_to, y_to = get_xy(to)
+
+      x_dir = direction(x_from, x_to)
+      y_dir = direction(y_from, y_to)
+
+      dx = (x_from - x_to).abs
+      dy = (y_from - y_to).abs
+
+      if same_square?(dx, dy)
+        squares << board[y_from][x_from]
+      elsif vertically?(dx, dy)
+        (dy + 1).times { |i| squares << board[y_from + y_dir * i][x_from] }
+      elsif horizontally?(dx, dy)
+        (dx + 1).times { |i| squares << board[y_from][x_from + x_dir * i] }
+      elsif diagonally?(dx, dy)
+        (dy + 1).times { |i| squares << board[y_from + y_dir * i][x_from + x_dir * i] }
+      else
+        return nil
+      end
+      squares
+    end
+
+    def path_blocked?(from, to)
+      squares = get_squares(from, to)
+      squares[1..-2].any? { |square| square.is_a?(Piece) }
+    end
+
     private
 
     def clear_square(san)
       set_square(san, " ")
     end
 
-    def get_xy(san)
-      coordinates = {
-        "A" => 0, "B" => 1, "C" => 2, "D" => 3,
-        "E" => 4, "F" => 5, "G" => 6, "H" => 7,
-        "1" => 0, "2" => 1, "3" => 2, "4" => 3,
-        "5" => 4, "6" => 5, "7" => 6, "8" => 7
-      }
-      x = coordinates[san[0]]
-      y = coordinates[san[1]]
+    def same_square?(dx, dy)
+      dx == 0 && dy == 0
+    end
 
-      [x, y]
+    def vertically?(dx, dy)
+      dx == 0 && dy > 0
+    end
+
+    def horizontally?(dx, dy)
+      dx > 0 && dy == 0
+    end
+
+    def diagonally?(dx, dy)
+      dx > 0 && dx == dy
+    end
+
+    def direction(from, to)
+      from > to ? -1 : 1
     end
 
     def default_board
