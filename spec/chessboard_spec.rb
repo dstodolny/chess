@@ -23,6 +23,11 @@ module Chess
       it { expect(chessboard.get_square("C3")).to eq "baz" }
     end
 
+    # describe "#set_square" do
+    #   let(:chessboard) { Chessboard.new.set_square("D5", "foo") }
+    #   it { expect(chessboard.get_square("D5")).to eq "foo" }
+    # end
+
     describe "#move" do
       context "with valid move" do
         it "moves a thing from a one square to another" do

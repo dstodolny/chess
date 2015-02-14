@@ -13,6 +13,10 @@ module Chess
     def initialize(input = {})
       super
     end
+
+    def valid_move?(chessboard, to)
+      true
+    end
   end
 
   class Knight < Piece

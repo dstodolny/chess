@@ -19,12 +19,12 @@ module Chess
       board[y][x]
     end
 
-    private
-
     def set_square(san, value)
       x, y = get_xy(san)
       board[y][x] = value
     end
+
+    private
 
     def clear_square(san)
       set_square(san, " ")
