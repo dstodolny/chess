@@ -39,15 +39,15 @@ module Chess
     def valid_move?(chessboard, to)
       x_from, y_from = get_xy(location)
       x_to, y_to = get_xy(to)
-      square = chessboard.get_square(to)
+      destination = chessboard.get_square(to)
       side = color == :white ? 1 : -1
 
       dx = distance(x_from, x_to)
       dy = distance(y_from, y_to)
 
-      if dx == 0 && dy == 1 && (side * (y_to - y_from)) > 0 && square == " "
+      if dx == 0 && dy == 1 && (side * (y_to - y_from)) > 0 && destination == " "
       elsif dx == 0 && dy == 2 && (y_from == 1 || y_from == 6)
-      elsif dx == 1 && dy == 1 && enemy_piece?(square)
+      elsif dx == 1 && dy == 1 && enemy_piece?(destination)
       else
         return false
       end
@@ -57,6 +57,22 @@ module Chess
 
   class Knight < Piece
     def initialize(input = {})
+      super
+    end
+
+    def valid_move?(chessboard, to)
+      x_from, y_from = get_xy(location)
+      x_to, y_to = get_xy(to)
+
+      dx = x_from - x_to
+      dy = y_from - y_to
+
+      knight_moves = [[-2, -1], [-2, 1], [-1, 2], [1, 2], [2, 1], [2, -1], [1, -2], [-1, -2]]
+
+      if knight_moves.include?([dx, dy])
+      else
+        return false
+      end
       super
     end
   end

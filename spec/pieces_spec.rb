@@ -2,6 +2,26 @@ module Chess
   describe Piece do
     it { is_expected.to respond_to :color }
     it { is_expected.to respond_to :location }
+
+    let(:chessboard) { Chessboard.new }
+
+    describe "#friendly_piece?" do
+      let(:white_pawn_1) { Pawn.new(color: :white, location: "A2") }
+      let(:white_pawn_2) { Pawn.new(color: :white, location: "B2") }
+      let(:black_pawn) { Pawn.new(color: :black, location: "A7") }
+
+      it { expect(white_pawn_1.friendly_piece?(white_pawn_2)).to be_truthy }
+      it { expect(white_pawn_1.friendly_piece?(black_pawn)).to be_falsey }
+    end
+
+    describe "#enemy_piece?" do
+      let(:white_pawn_1) { Pawn.new(color: :white, location: "A2") }
+      let(:white_pawn_2) { Pawn.new(color: :white, location: "B2") }
+      let(:black_pawn) { Pawn.new(color: :black, location: "A7") }
+
+      it { expect(white_pawn_1.enemy_piece?(white_pawn_2)).to be_falsey }
+      it { expect(white_pawn_1.enemy_piece?(black_pawn)).to be_truthy }
+    end
   end
 
   describe Pawn do
@@ -74,30 +94,39 @@ module Chess
         it { expect(white_pawn_2.valid_move?(chessboard, "E4")).to be_falsey }
       end
     end
-
-    describe "#friendly_piece?" do
-      let(:white_pawn_1) { Pawn.new(color: :white, location: "A2") }
-      let(:white_pawn_2) { Pawn.new(color: :white, location: "B2") }
-      let(:black_pawn) { Pawn.new(color: :black, location: "A7") }
-
-      it { expect(white_pawn_1.friendly_piece?(white_pawn_2)).to be_truthy }
-      it { expect(white_pawn_1.friendly_piece?(black_pawn)).to be_falsey }
-    end
-
-    describe "#enemy_piece?" do
-      let(:white_pawn_1) { Pawn.new(color: :white, location: "A2") }
-      let(:white_pawn_2) { Pawn.new(color: :white, location: "B2") }
-      let(:black_pawn) { Pawn.new(color: :black, location: "A7") }
-
-      it { expect(white_pawn_1.enemy_piece?(white_pawn_2)).to be_falsey }
-      it { expect(white_pawn_1.enemy_piece?(black_pawn)).to be_truthy }
-    end
   end
 
   describe Knight do
     it { is_expected.to be_a(Piece) }
     it { is_expected.to respond_to :color }
     it { is_expected.to respond_to :location }
+
+    let(:chessboard) { Chessboard.new }
+
+    describe "#valid_move?" do
+      let(:knight) { Knight.new(color: :white, location: "D5") }
+      before { chessboard.set_square("D5", knight) }
+
+      context "when moving to an empty space" do
+        it { expect(knight.valid_move?(chessboard, "B6")).to be_truthy }
+        it { expect(knight.valid_move?(chessboard, "F6")).to be_truthy }
+        it { expect(knight.valid_move?(chessboard, "F4")).to be_truthy }
+        it { expect(knight.valid_move?(chessboard, "E3")).to be_truthy }
+        it { expect(knight.valid_move?(chessboard, "C3")).to be_truthy }
+        it { expect(knight.valid_move?(chessboard, "B4")).to be_truthy }
+      end
+
+      context "when attacking an enemy piece" do
+        it { expect(knight.valid_move?(chessboard, "C7")).to be_truthy }
+        it { expect(knight.valid_move?(chessboard, "E7")).to be_truthy }
+      end
+
+      context "when moving to a wrong square" do
+        it { expect(knight.valid_move?(chessboard, "C5")).to be_falsey }
+        it { expect(knight.valid_move?(chessboard, "B7")).to be_falsey }
+        it { expect(knight.valid_move?(chessboard, "D3")).to be_falsey }
+      end
+    end
   end
 
   describe Bishop do

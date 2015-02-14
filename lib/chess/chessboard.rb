@@ -53,6 +53,7 @@ module Chess
 
     def path_blocked?(from, to)
       squares = get_squares(from, to)
+      return false if squares.nil?
       squares[1..-2].any? { |square| square.is_a?(Piece) }
     end
 
