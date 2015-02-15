@@ -45,15 +45,13 @@ module Chess
         (dx + 1).times { |i| squares << board[y_from][x_from + x_dir * i] }
       elsif going_diagonally?(dx, dy)
         (dy + 1).times { |i| squares << board[y_from + y_dir * i][x_from + x_dir * i] }
-      else
-        return nil
       end
       squares
     end
 
     def path_blocked?(from, to)
       squares = get_squares(from, to)
-      return false if squares.nil?
+      return false if squares.empty?
       squares[1..-2].any? { |square| square.is_a?(Piece) }
     end
 

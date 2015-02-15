@@ -192,6 +192,7 @@ module Chess
       context "when moving to a wrong square" do
         it { expect(rook.valid_move?(chessboard, "B6")).to be_falsey }
         it { expect(rook.valid_move?(chessboard, "D2")).to be_falsey }
+        it { expect(rook.valid_move?(chessboard, "F3")).to be_falsey }
       end
 
       context "when moving through a blocked square" do

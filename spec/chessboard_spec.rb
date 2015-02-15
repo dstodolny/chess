@@ -91,7 +91,7 @@ module Chess
       end
 
       context "with squares that doesn't lie on a line" do
-        it { expect(chessboard.get_squares("A1", "B6")).to be_falsey }
+        it { expect(chessboard.get_squares("A1", "B6")).to be_empty }
       end
     end
 
