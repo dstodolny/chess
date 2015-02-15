@@ -26,7 +26,7 @@ module Chess
       piece.color == color if piece.is_a?(Piece)
     end
 
-    def enemy_piece?(piece)
+    def enemy?(piece)
       piece.color != color if piece.is_a?(Piece)
     end
   end
@@ -47,7 +47,7 @@ module Chess
 
       if dx == 0 && dy == 1 && (side * (y_to - y_from)) > 0 && destination == " "
       elsif dx == 0 && dy == 2 && (y_from == 1 || y_from == 6)
-      elsif dx == 1 && dy == 1 && enemy_piece?(destination)
+      elsif dx == 1 && dy == 1 && enemy?(destination)
       else
         return false
       end
