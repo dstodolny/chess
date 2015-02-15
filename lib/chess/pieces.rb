@@ -138,5 +138,22 @@ module Chess
     def initialize(input = {})
       super
     end
+
+    def valid_move?(chessboard, to)
+      x_from, y_from = get_xy(location)
+      x_to, y_to = get_xy(to)
+      destination = chessboard.get_square(to)
+
+      dx = distance(x_from, x_to)
+      dy = distance(y_from, y_to)
+
+      king_moves = [[-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0]]
+
+      if king_moves.include?([dx, dy])
+      else
+        return false
+      end
+      super
+    end
   end
 end

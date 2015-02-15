@@ -249,5 +249,35 @@ module Chess
     it { is_expected.to be_a(King) }
     it { is_expected.to respond_to :color }
     it { is_expected.to respond_to :location }
+
+    let(:chessboard) { Chessboard.new }
+
+    describe "#valid_move?" do
+      let(:king) { King.new(color: :white, location: "D5") }
+      before { chessboard.set_square("D5", king) }
+
+      context "when moving to an empty space" do
+        it { expect(king.valid_move?(chessboard, "C6")).to be_truthy }
+        it { expect(king.valid_move?(chessboard, "D6")).to be_truthy }
+        it { expect(king.valid_move?(chessboard, "E6")).to be_truthy }
+        it { expect(king.valid_move?(chessboard, "E5")).to be_truthy }
+        it { expect(king.valid_move?(chessboard, "E4")).to be_truthy }
+        it { expect(king.valid_move?(chessboard, "D4")).to be_truthy }
+        it { expect(king.valid_move?(chessboard, "C4")).to be_truthy }
+        it { expect(king.valid_move?(chessboard, "C5")).to be_truthy }
+      end
+
+      context "when attacking an enemy piece" do
+        let(:king) { King.new(color: :white, location: "A6") }
+        before { chessboard.set_square("A6", king) }
+
+        it { expect(king.valid_move?(chessboard, "A7")).to be_truthy }
+      end
+
+      context "when moving to a wrong square" do
+        it { expect(king.valid_move?(chessboard, "B5")).to be_falsey }
+        it { expect(king.valid_move?(chessboard, "C2")).to be_falsey }
+      end
+    end
   end
 end
