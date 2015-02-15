@@ -1,30 +1,28 @@
 module Chess
   describe Chessboard do
-    board = [["foo", " ", " "], [" ", "bar", " "], [" ", " ", "baz"]]
-    let(:chessboard) { Chessboard.new(board: board) }
+    let(:chessboard) { Chessboard.new }
 
     it { is_expected.to respond_to :board }
 
     describe "#initialize" do
       it "sets the board with eight rows by default" do
-        expect(Chessboard.new.board.size).to eq 8
+        expect(chessboard.board.size).to eq 8
       end
 
       it "creates eight things in each row by default" do
-        Chessboard.new.board.each do |row|
+        chessboard.board.each do |row|
           expect(row.size).to eq 8
         end
       end
     end
 
     describe "#get_square" do
-      it { expect(chessboard.get_square("A1")).to eq "foo" }
-      it { expect(chessboard.get_square("B2")).to eq "bar" }
-      it { expect(chessboard.get_square("C3")).to eq "baz" }
+      it { expect(chessboard.get_square("A1")).to be_instance_of(Rook) }
+      it { expect(chessboard.get_square("B2")).to be_instance_of(Pawn) }
+      it { expect(chessboard.get_square("C3")).to eq " " }
     end
 
     describe "#set_square" do
-      let(:chessboard) { Chessboard.new }
       before { chessboard.set_square("D5", "foo") }
 
       it { expect(chessboard.get_square("D5")).to eq "foo" }
@@ -32,11 +30,23 @@ module Chess
 
     describe "#move" do
       context "with valid move" do
-        it "moves a thing from a one square to another" do
-          chessboard.move("C3", "C2")
-          expect(chessboard.get_square("C2")).to eq "baz"
-          expect(chessboard.get_square("C3")).to eq " "
+        let(:white_pawn) { chessboard.get_square("C2") }
+        before { chessboard.move("C2", "C3") }
+
+        it { expect(chessboard.get_square("C2")).to eq " " }
+        it { expect(chessboard.get_square("C3")).to be_instance_of(Pawn) }
+        it { expect(chessboard.get_square("C3").location).to eq "C3" }
+      end
+
+      context "with a pawn reaching the end of the board" do
+        let(:white_pawn) { Pawn.new(color: :white, location: "A7") }
+        before do
+          chessboard.set_square("A7", white_pawn)
+          chessboard.move("A7", "B8")
         end
+
+        it { expect(chessboard.get_square("B8")).to be_instance_of(Queen) }
+        it { expect(chessboard.get_square("B8").color).to eq :white }
       end
 
       context "with invalid move" do
@@ -52,8 +62,6 @@ module Chess
     end
 
     describe "#get_squares" do
-      let(:chessboard) { Chessboard.new }
-
       context "with same squares" do
         let(:squares) { chessboard.get_squares("A1", "A1") }
 
@@ -114,7 +122,6 @@ module Chess
     end
 
     describe "#path_blocked?" do
-      let(:chessboard) { Chessboard.new }
       before { chessboard.set_square("C5", Pawn.new(color: :white, location: "C5")) }
 
       it { expect(chessboard.path_blocked?("C2", "C7")).to be_truthy }

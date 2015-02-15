@@ -11,9 +11,14 @@ module Chess
     def move(from, to)
       valid_san = /^[a-hA-H][1-8]$/
       return false unless from != to && from.match(valid_san) && to.match(valid_san)
-      
-      set_square(to, get_square(from))
+
+      piece = get_square(from)
+
+      set_square(to, piece)
+      piece.location = to
       clear_square(from)
+
+      set_square(to, Queen.new(color: piece.color, location: to)) if piece.to_be_promoted?
     end
 
     def get_square(san)
