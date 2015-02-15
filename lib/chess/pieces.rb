@@ -81,6 +81,21 @@ module Chess
     def initialize(input = {})
       super
     end
+
+    def valid_move?(chessboard, to)
+      x_from, y_from = get_xy(location)
+      x_to, y_to = get_xy(to)
+
+      dx = (x_from - x_to).abs
+      dy = (y_from - y_to).abs
+
+      bishop_moves = chessboard.get_squares(location, to)
+      if !bishop_moves.empty? && chessboard.diagonally?(dx, dy)
+      else
+        return false
+      end
+      super
+    end
   end
 
   class Rook < Piece

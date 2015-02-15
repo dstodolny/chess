@@ -133,6 +133,38 @@ module Chess
     it { is_expected.to be_a(Piece) }
     it { is_expected.to respond_to :color }
     it { is_expected.to respond_to :location }
+
+    let(:chessboard) { Chessboard.new }
+
+    describe "#valid_move?" do
+      let(:bishop) { Bishop.new(color: :white, location: "E4") }
+      before { chessboard.set_square("E4", bishop) }
+
+      context "when moving to an empty space" do
+        it { expect(bishop.valid_move?(chessboard, "C6")).to be_truthy }
+        it { expect(bishop.valid_move?(chessboard, "G6")).to be_truthy }
+        it { expect(bishop.valid_move?(chessboard, "D3")).to be_truthy }
+        it { expect(bishop.valid_move?(chessboard, "F3")).to be_truthy }
+      end
+
+      context "when attacking an enemy piece" do
+        it { expect(bishop.valid_move?(chessboard, "B7")).to be_truthy }
+        it { expect(bishop.valid_move?(chessboard, "H7")).to be_truthy }
+      end
+
+      context "when moving to a wrong square" do
+        it { expect(bishop.valid_move?(chessboard, "B4")).to be_falsey }
+        it { expect(bishop.valid_move?(chessboard, "E7")).to be_falsey }
+        it { expect(bishop.valid_move?(chessboard, "C2")).to be_falsey }
+      end
+
+      context "when moving through a blocked square" do
+        let(:pawn) { Pawn.new(color: :black, location: "D5") }
+        before { chessboard.set_square("D5", pawn) }
+
+        it { expect(bishop.valid_move?(chessboard, "C6")).to be_falsey }
+      end
+    end
   end
 
   describe Rook do

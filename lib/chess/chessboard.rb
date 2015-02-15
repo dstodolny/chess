@@ -57,16 +57,6 @@ module Chess
       squares[1..-2].any? { |square| square.is_a?(Piece) }
     end
 
-    private
-
-    def clear_square(san)
-      set_square(san, " ")
-    end
-
-    def same_square?(dx, dy)
-      dx == 0 && dy == 0
-    end
-
     def vertically?(dx, dy)
       dx == 0 && dy > 0
     end
@@ -77,6 +67,16 @@ module Chess
 
     def diagonally?(dx, dy)
       dx > 0 && dx == dy
+    end
+
+    private
+
+    def clear_square(san)
+      set_square(san, " ")
+    end
+
+    def same_square?(dx, dy)
+      dx == 0 && dy == 0
     end
 
     def direction(from, to)
