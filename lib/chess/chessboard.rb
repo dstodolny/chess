@@ -39,11 +39,11 @@ module Chess
 
       if same_square?(dx, dy)
         squares << board[y_from][x_from]
-      elsif vertically?(dx, dy)
+      elsif going_vertically?(dx, dy)
         (dy + 1).times { |i| squares << board[y_from + y_dir * i][x_from] }
-      elsif horizontally?(dx, dy)
+      elsif going_horizontally?(dx, dy)
         (dx + 1).times { |i| squares << board[y_from][x_from + x_dir * i] }
-      elsif diagonally?(dx, dy)
+      elsif going_diagonally?(dx, dy)
         (dy + 1).times { |i| squares << board[y_from + y_dir * i][x_from + x_dir * i] }
       else
         return nil
@@ -57,15 +57,15 @@ module Chess
       squares[1..-2].any? { |square| square.is_a?(Piece) }
     end
 
-    def vertically?(dx, dy)
+    def going_vertically?(dx, dy)
       dx == 0 && dy > 0
     end
 
-    def horizontally?(dx, dy)
+    def going_horizontally?(dx, dy)
       dx > 0 && dy == 0
     end
 
-    def diagonally?(dx, dy)
+    def going_diagonally?(dx, dy)
       dx > 0 && dx == dy
     end
 

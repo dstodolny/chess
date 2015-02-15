@@ -95,6 +95,24 @@ module Chess
       end
     end
 
+    describe "#going_vertically?" do
+      it { expect(chessboard.going_vertically?(0, 1)).to be_truthy }
+      it { expect(chessboard.going_vertically?(1, 0)).to be_falsey }
+      it { expect(chessboard.going_vertically?(1, 1)).to be_falsey }
+    end
+
+    describe "#going_horizontally?" do
+      it { expect(chessboard.going_horizontally?(0, 1)).to be_falsey }
+      it { expect(chessboard.going_horizontally?(1, 0)).to be_truthy }
+      it { expect(chessboard.going_horizontally?(1, 1)).to be_falsey }
+    end
+
+    describe "#going_diagonally?" do
+      it { expect(chessboard.going_diagonally?(0, 1)).to be_falsey }
+      it { expect(chessboard.going_diagonally?(1, 0)).to be_falsey }
+      it { expect(chessboard.going_diagonally?(1, 1)).to be_truthy }
+    end
+
     describe "#path_blocked?" do
       let(:chessboard) { Chessboard.new }
       before { chessboard.set_square("C5", Pawn.new(color: :white, location: "C5")) }

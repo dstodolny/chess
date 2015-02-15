@@ -90,7 +90,7 @@ module Chess
       dy = (y_from - y_to).abs
 
       bishop_moves = chessboard.get_squares(location, to)
-      if !bishop_moves.empty? && chessboard.diagonally?(dx, dy)
+      if !bishop_moves.empty? && chessboard.going_diagonally?(dx, dy)
       else
         return false
       end
