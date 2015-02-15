@@ -208,6 +208,41 @@ module Chess
     it { is_expected.to be_a(Piece) }
     it { is_expected.to respond_to :color }
     it { is_expected.to respond_to :location }
+
+    let(:chessboard) { Chessboard.new }
+
+    describe "#valid_move?" do
+      let(:queen) { Queen.new(color: :white, location: "D4") }
+      before { chessboard.set_square("D4", queen) }
+
+      context "when moving to an empty space" do
+        it { expect(queen.valid_move?(chessboard, "A4")).to be_truthy }
+        it { expect(queen.valid_move?(chessboard, "H4")).to be_truthy }
+        it { expect(queen.valid_move?(chessboard, "D6")).to be_truthy }
+        it { expect(queen.valid_move?(chessboard, "D3")).to be_truthy }
+        it { expect(queen.valid_move?(chessboard, "B6")).to be_truthy }
+        it { expect(queen.valid_move?(chessboard, "F6")).to be_truthy }
+        it { expect(queen.valid_move?(chessboard, "C3")).to be_truthy }
+        it { expect(queen.valid_move?(chessboard, "E3")).to be_truthy }
+      end
+
+      context "when attacking an enemy piece" do
+        it { expect(queen.valid_move?(chessboard, "D7")).to be_truthy }
+        it { expect(queen.valid_move?(chessboard, "G7")).to be_truthy }
+      end
+
+      context "when moving to a wrong square" do
+        it { expect(queen.valid_move?(chessboard, "C6")).to be_falsey }
+        it { expect(queen.valid_move?(chessboard, "B2")).to be_falsey }
+      end
+
+      context "when moving through a blocked square" do
+        let(:pawn) { Pawn.new(color: :black, location: "G4") }
+        before { chessboard.set_square("G4", pawn) }
+
+        it { expect(queen.valid_move?(chessboard, "H4")).to be_falsey }
+      end
+    end
   end
 
   describe King do

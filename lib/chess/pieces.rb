@@ -110,8 +110,8 @@ module Chess
       dx = (x_from - x_to).abs
       dy = (y_from - y_to).abs
 
-      bishop_moves = chessboard.get_squares(location, to)
-      if !bishop_moves.empty? && !chessboard.going_diagonally?(dx, dy)
+      rook_moves = chessboard.get_squares(location, to)
+      if !rook_moves.empty? && !chessboard.going_diagonally?(dx, dy)
       else
         return false
       end
@@ -121,6 +121,15 @@ module Chess
 
   class Queen < Piece
     def initialize(input = {})
+      super
+    end
+
+    def valid_move?(chessboard, to)
+      queen_moves = chessboard.get_squares(location, to)
+      if !queen_moves.empty?
+      else
+        return false
+      end
       super
     end
   end
