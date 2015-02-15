@@ -29,6 +29,11 @@ module Chess
     def enemy?(piece)
       piece.color != color if piece.is_a?(Piece)
     end
+
+    def to_be_promoted?
+      return false unless self.instance_of?(Pawn)
+      (color == :white && location[1] == "8") || (color == :black && location[1] == "1")
+    end
   end
 
   class Pawn < Piece

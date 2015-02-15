@@ -22,6 +22,31 @@ module Chess
       it { expect(white_pawn_1.enemy?(white_pawn_2)).to be_falsey }
       it { expect(white_pawn_1.enemy?(black_pawn)).to be_truthy }
     end
+
+    describe "#to_be_promoted?" do
+      context "with a pawn" do
+        let(:white_pawn_1) { Pawn.new(color: :white, location: "A8") }
+        let(:white_pawn_2) { chessboard.get_square("A2") }
+        let(:black_pawn) { Pawn.new(color: :black, location: "B1") }
+        before do
+          chessboard.set_square("A8", white_pawn_1)
+          chessboard.set_square("B1", black_pawn)
+        end
+
+        it { expect(white_pawn_1.to_be_promoted?).to be_truthy }
+        it { expect(black_pawn.to_be_promoted?).to be_truthy }
+        it { expect(white_pawn_2.to_be_promoted?).to be_falsey }
+      end
+
+      context "with any other piece" do
+        let(:white_knight_1) { Knight.new(color: :white, location: "A8") }
+        let(:white_knight_2) { chessboard.get_square("B1") }
+        before { chessboard.set_square("A8", white_knight_1) }
+
+        it { expect(white_knight_1.to_be_promoted?).to be_falsey }
+        it { expect(white_knight_2.to_be_promoted?).to be_falsey }
+      end
+    end
   end
 
   describe Pawn do
