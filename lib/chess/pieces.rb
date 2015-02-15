@@ -13,7 +13,7 @@ module Chess
     def valid_move?(chessboard, to)
       if to == location
         return false
-      elsif friendly_piece?(chessboard.get_square(to))
+      elsif friend?(chessboard.get_square(to))
         return false
       elsif chessboard.path_blocked?(location, to)
         return false
@@ -22,7 +22,7 @@ module Chess
       end
     end
 
-    def friendly_piece?(piece)
+    def friend?(piece)
       piece.color == color if piece.is_a?(Piece)
     end
 

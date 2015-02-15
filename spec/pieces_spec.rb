@@ -5,13 +5,13 @@ module Chess
 
     let(:chessboard) { Chessboard.new }
 
-    describe "#friendly_piece?" do
+    describe "#friendly?" do
       let(:white_pawn_1) { Pawn.new(color: :white, location: "A2") }
       let(:white_pawn_2) { Pawn.new(color: :white, location: "B2") }
       let(:black_pawn) { Pawn.new(color: :black, location: "A7") }
 
-      it { expect(white_pawn_1.friendly_piece?(white_pawn_2)).to be_truthy }
-      it { expect(white_pawn_1.friendly_piece?(black_pawn)).to be_falsey }
+      it { expect(white_pawn_1.friend?(white_pawn_2)).to be_truthy }
+      it { expect(white_pawn_1.friend?(black_pawn)).to be_falsey }
     end
 
     describe "#enemy_piece?" do
