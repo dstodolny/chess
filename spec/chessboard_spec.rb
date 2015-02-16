@@ -36,6 +36,7 @@ module Chess
         it { expect(chessboard.get_square("C2")).to eq " " }
         it { expect(chessboard.get_square("C3")).to be_instance_of(Pawn) }
         it { expect(chessboard.get_square("C3").location).to eq "C3" }
+        it { expect(chessboard.get_square("C3").moves).to eq 1 }
       end
 
       context "with a pawn reaching the end of the board" do

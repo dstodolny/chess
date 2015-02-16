@@ -2,22 +2,23 @@ module Chess
   class Chessboard
     include ChessHelper
 
+    attr_accessor :moves
     attr_reader :board
 
     def initialize(input = {})
       @board = input.fetch(:board, default_board)
+      @moves = 3
     end
 
     def move(from, to)
       valid_san = /^[a-hA-H][1-8]$/
       return false unless from != to && from.match(valid_san) && to.match(valid_san)
-
+      @moves += 1
       piece = get_square(from)
 
       set_square(to, piece)
-      piece.location = to
+      piece.move_to(self, to)
       clear_square(from)
-
       set_square(to, Queen.new(color: piece.color, location: to)) if piece.to_be_promoted?
     end
 

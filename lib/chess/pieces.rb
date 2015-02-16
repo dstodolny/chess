@@ -2,12 +2,14 @@ module Chess
   class Piece
     include ChessHelper
 
-    attr_accessor :location
+    attr_accessor :location, :moves, :passable, :passable_turn
     attr_reader :color
 
     def initialize(input = {})
       @color = input.fetch(:color, :white)
       @location = input.fetch(:location, "A1")
+      @moves = 0
+      @passable = false
     end
 
     def valid_move?(chessboard, to)
@@ -20,6 +22,11 @@ module Chess
       else
         return true
       end
+    end
+
+    def move_to(chessboard, to)
+      @location = to
+      @moves += 1
     end
 
     def friend?(piece)
@@ -53,10 +60,28 @@ module Chess
       if dx == 0 && dy == 1 && (side * (y_to - y_from)) > 0 && destination == " "
       elsif dx == 0 && dy == 2 && (y_from == 1 || y_from == 6)
       elsif dx == 1 && dy == 1 && enemy?(destination)
+      elsif dx == 1 && dy == 1 && destination == " " && en_passant?(chessboard, to)
       else
         return false
       end
       super
+    end
+
+    def move_to(chessboard, to)
+      _, y_from = get_xy(location)
+      _, y_to = get_xy(to)
+      @passable = (y_from - y_to).abs == 2 ? true : false
+      @passable_turn = chessboard.moves if @passable
+      super
+    end
+
+    def en_passant?(chessboard, to)
+      x_to, y_to = get_xy(to)
+      side = color == :black ? 1 : -1
+
+      piece = chessboard.board[y_to + side][x_to]
+      return true if piece.instance_of?(Pawn) && piece.color != color && piece.passable == true && piece.passable_turn == chessboard.moves
+      false
     end
   end
 

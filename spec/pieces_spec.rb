@@ -118,6 +118,61 @@ module Chess
 
         it { expect(white_pawn_2.valid_move?(chessboard, "E4")).to be_falsey }
       end
+
+      context "when black is commiting en-passant" do
+        let(:black_pawn) { Pawn.new(color: :black, location: "C4") }
+        before do
+          chessboard.set_square("C4", black_pawn)
+          chessboard.move("D2", "D4")
+        end
+
+        it { expect(black_pawn.valid_move?(chessboard, "D3")).to be_truthy }
+      end
+
+      context "when white is commiting en-passant" do
+        let(:white_pawn) { Pawn.new(color: :white, location: "G5") }
+        before do
+          chessboard.set_square("G5", white_pawn)
+          chessboard.move("F7", "F5")
+        end
+
+        it { expect(white_pawn.valid_move?(chessboard, "F6")).to be_truthy }
+      end
+
+      context "when can't commit en-passant" do
+        let(:black_pawn) { Pawn.new(color: :black, location: "C4") }
+        before do
+          chessboard.set_square("C4", black_pawn)
+          chessboard.move("D2", "D4")
+          chessboard.move("A7", "A6") # black's not commiting en-passent
+          chessboard.move("A2", "A3") # white's turn
+        end
+
+        it { expect(black_pawn.valid_move?(chessboard, "D3")).to be_falsey }
+      end
+    end
+
+    describe "#move" do
+      context "when moving one square forward" do
+        before { chessboard.move("C2", "C3") }
+
+        it { expect(chessboard.get_square("C3").passable).to be_falsey }
+      end
+
+      context "when moving two steps forward" do
+        before { chessboard.move("B2", "B4") }
+
+        it { expect(chessboard.get_square("B4").passable).to be_truthy }
+      end
+
+      context "after moving two times" do
+        before do
+          chessboard.move("B2", "B4")
+          chessboard.move("B4", "B5")
+        end
+
+        it { expect(chessboard.get_square("B5").passable).to be_falsey }
+      end
     end
   end
 
