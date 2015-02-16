@@ -359,5 +359,17 @@ module Chess
         it { expect(king.valid_move?(chessboard, "C2")).to be_falsey }
       end
     end
+
+    describe "#in_check?" do
+      let(:white_king) { King.new(color: :white, location: "D3") }
+      let(:black_bishop) { Bishop.new(color: :black, location: "G6") }
+      before do
+        chessboard.set_square("D3", white_king)
+        chessboard.set_square("G6", black_bishop)
+      end
+
+      it { expect(white_king.in_check?(chessboard, "D3")).to be_truthy }
+      it { expect(chessboard.get_square("E1").in_check?(chessboard, "E1")).to be_falsey }
+    end
   end
 end

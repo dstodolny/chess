@@ -55,6 +55,12 @@ module Chess
       squares
     end
 
+    def get_pieces(color)
+      pieces = []
+      board.each { |row| row.each { |square| pieces << square if square.is_a?(Piece) && square.color == color } }
+      pieces
+    end
+
     def path_blocked?(from, to)
       squares = get_squares(from, to)
       return false if squares.empty?

@@ -185,5 +185,10 @@ module Chess
       end
       super
     end
+
+    def in_check?(chessboard, san)
+      enemies = chessboard.get_pieces(other_color(color))
+      enemies.any? { |enemy| enemy.valid_move?(chessboard, san) }
+    end
   end
 end

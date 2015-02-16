@@ -18,6 +18,10 @@ module Chess
     def distance(from, to)
       (from - to).abs
     end
+
+    def other_color(color)
+      color == :white ? :black : :white
+    end
   end
 end
 

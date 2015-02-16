@@ -131,5 +131,10 @@ module Chess
       it { expect(chessboard.path_blocked?("B2", "B7")).to be_falsey }
       it { expect(chessboard.path_blocked?("F2", "C5")).to be_falsey }
     end
+
+    describe "#get_pieces" do
+      it { expect(chessboard.get_pieces(:black).size).to eq 16 }
+      it { expect(chessboard.get_pieces(:white)[0].color).to eq :white }
+    end
   end
 end
