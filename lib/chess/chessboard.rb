@@ -83,6 +83,15 @@ module Chess
       set_square(san, " ")
     end
 
+    def display
+      8.times do |row|
+        print "#{8 - row}" + board[-1 - row].join(" ")
+        puts ""
+      end
+      ("A".."H").each { |e| print " #{e}" }
+      puts ""
+    end
+
     private
 
     def same_square?(dx, dy)

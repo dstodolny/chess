@@ -3,13 +3,14 @@ module Chess
     include ChessHelper
 
     attr_accessor :location, :moves, :passable, :passable_turn
-    attr_reader :color
+    attr_reader :color, :icon
 
     def initialize(input = {})
       @color = input.fetch(:color, :white)
       @location = input.fetch(:location, "A1")
       @moves = 0
       @passable = false
+      @icon = color == :white ? "\u2659" : "\u265F"
     end
 
     def valid_move?(chessboard, to)
@@ -24,7 +25,7 @@ module Chess
       end
     end
 
-    def move_to(chessboard, to)
+    def move_to(_, to)
       @location = to
       @moves += 1
     end
@@ -41,11 +42,16 @@ module Chess
       return false unless self.instance_of?(Pawn)
       (color == :white && location[1] == "8") || (color == :black && location[1] == "1")
     end
+
+    def to_s
+      icon
+    end
   end
 
   class Pawn < Piece
     def initialize(input = {})
       super
+      @icon = color == :white ? "\u2659" : "\u265F"
     end
 
     def valid_move?(chessboard, to)
@@ -94,6 +100,7 @@ module Chess
     def initialize(input = {})
       @knight_moves = [[-2, -1], [-2, 1], [-1, 2], [1, 2], [2, 1], [2, -1], [1, -2], [-1, -2]]
       super
+      @icon = color == :white ? "\u2658" : "\u265E"
     end
 
     def valid_move?(chessboard, to)
@@ -114,6 +121,7 @@ module Chess
   class Bishop < Piece
     def initialize(input = {})
       super
+      @icon = color == :white ? "\u2657" : "\u265D"
     end
 
     def valid_move?(chessboard, to)
@@ -135,6 +143,7 @@ module Chess
   class Rook < Piece
     def initialize(input = {})
       super
+      @icon = color == :white ? "\u2656" : "\u265C"
     end
 
     def valid_move?(chessboard, to)
@@ -156,6 +165,7 @@ module Chess
   class Queen < Piece
     def initialize(input = {})
       super
+      @icon = color == :white ? "\u2655" : "\u265B"
     end
 
     def valid_move?(chessboard, to)
@@ -172,6 +182,7 @@ module Chess
     def initialize(input = {})
       @king_moves = [[-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0]]
       super
+      @icon = color == :white ? "\u2654" : "\u265A"
     end
 
     def valid_move?(chessboard, to)
