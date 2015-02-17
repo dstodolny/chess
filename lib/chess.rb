@@ -22,6 +22,19 @@ module Chess
     def other_color(color)
       color == :white ? :black : :white
     end
+
+    def get_sans(from, to) # get list of standard algebraic notation coordinates
+      (from[0]..to[0]).to_a.map { |e| e + from[1] }
+    end
+
+    def get_castling_san(rook_position)
+      rook_position[0] == "H" ? "G" + rook_position[1] : "C" + rook_position[1]
+    end
+
+    def neighbours(letter)
+      neighbours = [(letter.upcase.ord - 1).chr, (letter.upcase.ord + 1).chr]
+      neighbours.delete_if { |letter| letter < "A" || letter > "H" }
+    end
   end
 end
 

@@ -371,5 +371,72 @@ module Chess
       it { expect(white_king.in_check?(chessboard, "D3")).to be_truthy }
       it { expect(chessboard.get_square("E1").in_check?(chessboard, "E1")).to be_falsey }
     end
+
+    describe "#can_castle?" do
+      before do
+        chessboard.clear_square("E2")
+        chessboard.clear_square("B1")
+        chessboard.clear_square("C1")
+        chessboard.clear_square("D1")
+        chessboard.clear_square("F1")
+        chessboard.clear_square("G1")
+        chessboard.clear_square("H2")
+        chessboard.clear_square("F8")
+        chessboard.clear_square("G8")
+      end
+
+      context "when doing a short castle" do
+        it { expect(chessboard.get_square("E1").can_castle?(chessboard, "H1")).to be_truthy }
+        it { expect(chessboard.get_square("E8").can_castle?(chessboard, "H8")).to be_truthy }
+      end
+
+      context "when doing a long castle" do
+        it { expect(chessboard.get_square("E1").can_castle?(chessboard, "A1")).to be_truthy }
+      end
+
+      context "when king was moved" do
+        before do
+          chessboard.move("E1", "E2")
+          chessboard.move("E2", "E1")
+        end
+
+        it { expect(chessboard.get_square("E1").can_castle?(chessboard, "H1")).to be_falsey }
+      end
+
+      context "when rook was moved" do
+        before do
+          chessboard.move("H1", "H2")
+          chessboard.move("H2", "H1")
+        end
+
+        it { expect(chessboard.get_square("E1").can_castle?(chessboard, "H1")).to be_falsey }
+      end
+
+      context "when king is in check" do
+        before do
+          chessboard.set_square("E5", Rook.new(color: :black, location: "E5"))
+        end
+
+        it { expect(chessboard.get_square("E1").can_castle?(chessboard, "H1")).to be_falsey }
+      end
+
+      context "when castling through check" do
+        before do
+          chessboard.set_square("B5", Bishop.new(color: :black, location: "B5"))
+        end
+
+        it { expect(chessboard.get_square("E1").can_castle?(chessboard, "H1")).to be_falsey }
+      end
+
+      context "when castling position is in check" do
+        before do
+          chessboard.set_square("H2", Pawn.new(color: :black, location: "H2"))
+          chessboard.set_square("H7", Pawn.new(color: :white, location: "H7"))
+        end
+
+        it { expect(chessboard.get_square("E1").can_castle?(chessboard, "H1")).to be_falsey }
+        it { expect(chessboard.get_square("E8").can_castle?(chessboard, "H8")).to be_falsey }
+      end
+    end
   end
 end

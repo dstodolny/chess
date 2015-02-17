@@ -136,5 +136,11 @@ module Chess
       it { expect(chessboard.get_pieces(:black).size).to eq 16 }
       it { expect(chessboard.get_pieces(:white)[0].color).to eq :white }
     end
+
+    describe "#clear_square" do
+      before { chessboard.clear_square("A1") }
+
+      it { expect(chessboard.get_square("A1")).to eq " " }
+    end
   end
 end

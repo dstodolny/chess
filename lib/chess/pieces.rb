@@ -83,6 +83,11 @@ module Chess
       return true if piece.instance_of?(Pawn) && piece.color != color && piece.passable == true && piece.passable_turn == chessboard.moves
       false
     end
+
+    def attack_squares
+      side = color == :white ? 1 : -1
+      neighbours(location[0]).map { |letter| letter + (location[1].to_i + side).to_s }
+    end
   end
 
   class Knight < Piece
@@ -188,7 +193,24 @@ module Chess
 
     def in_check?(chessboard, san)
       enemies = chessboard.get_pieces(other_color(color))
-      enemies.any? { |enemy| enemy.valid_move?(chessboard, san) }
+      pawns = enemies.select { |piece| piece.instance_of?(Pawn) }
+
+      enemies.any? { |enemy| enemy.valid_move?(chessboard, san) } ||
+        pawns.any? { |pawn| pawn.attack_squares.include?(san) }
+    end
+
+    def can_castle?(chessboard, to)
+      rook = chessboard.get_square(to)
+
+      squares = get_sans(location, get_castling_san(to))
+
+      if moves != 0 || rook.moves != 0
+        return false
+      elsif squares.any? { |square| in_check?(chessboard, square) }
+        return false
+      else
+        return true
+      end
     end
   end
 end

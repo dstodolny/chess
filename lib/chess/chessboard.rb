@@ -79,11 +79,11 @@ module Chess
       dx > 0 && dx == dy
     end
 
-    private
-
     def clear_square(san)
       set_square(san, " ")
     end
+
+    private
 
     def same_square?(dx, dy)
       dx == 0 && dy == 0
