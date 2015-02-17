@@ -15,6 +15,18 @@ module Chess
       [x, y]
     end
 
+    def get_san(xy)
+      x = xy[0]
+      y = xy[1]
+      return nil if x < 0 || x > 7 || y < 0 || y > 7
+
+      letters = {
+        0 => "A", 1 => "B", 2 => "C", 3 => "D",
+        4 => "E", 5 => "F", 6 => "G", 7 => "H"
+      }
+      letters[x] + (y + 1).to_s
+    end
+
     def distance(from, to)
       (from - to).abs
     end

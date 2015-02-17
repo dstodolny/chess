@@ -92,6 +92,7 @@ module Chess
 
   class Knight < Piece
     def initialize(input = {})
+      @knight_moves = [[-2, -1], [-2, 1], [-1, 2], [1, 2], [2, 1], [2, -1], [1, -2], [-1, -2]]
       super
     end
 
@@ -102,9 +103,7 @@ module Chess
       dx = x_from - x_to
       dy = y_from - y_to
 
-      knight_moves = [[-2, -1], [-2, 1], [-1, 2], [1, 2], [2, 1], [2, -1], [1, -2], [-1, -2]]
-
-      if knight_moves.include?([dx, dy])
+      if @knight_moves.include?([dx, dy])
       else
         return false
       end
@@ -171,20 +170,18 @@ module Chess
 
   class King < Piece
     def initialize(input = {})
+      @king_moves = [[-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0]]
       super
     end
 
     def valid_move?(chessboard, to)
       x_from, y_from = get_xy(location)
       x_to, y_to = get_xy(to)
-      destination = chessboard.get_square(to)
 
       dx = distance(x_from, x_to)
       dy = distance(y_from, y_to)
 
-      king_moves = [[-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0]]
-
-      if king_moves.include?([dx, dy])
+      if @king_moves.include?([dx, dy])
       else
         return false
       end
@@ -211,6 +208,12 @@ module Chess
       else
         return true
       end
+    end
+
+    def valid_moves
+      x, y = get_xy(location)
+
+      @king_moves.map { |move| get_san([move[0] + x, move[1] + y]) }.compact
     end
   end
 end

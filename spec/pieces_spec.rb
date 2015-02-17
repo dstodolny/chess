@@ -438,5 +438,17 @@ module Chess
         it { expect(chessboard.get_square("E8").can_castle?(chessboard, "H8")).to be_falsey }
       end
     end
+
+    describe "#valid_moves" do
+      before do
+        chessboard.set_square("E5", King.new(color: :white, location: "E5"))
+        chessboard.set_square("A5", King.new(color: :black, location: "A5"))
+      end
+
+      it { expect(chessboard.get_square("E5").valid_moves.size).to eq 8 }
+      it { expect(chessboard.get_square("E5").valid_moves).to contain_exactly("D6", "E6", "F6", "F5", "F4", "E4", "D4", "D5") }
+      it { expect(chessboard.get_square("A5").valid_moves.size).to eq 5 }
+      it { expect(chessboard.get_square("A5").valid_moves).to contain_exactly("A6", "B6", "B5", "B4", "A4") }
+    end
   end
 end
