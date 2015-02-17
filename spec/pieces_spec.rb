@@ -450,5 +450,36 @@ module Chess
       it { expect(chessboard.get_square("A5").valid_moves.size).to eq 5 }
       it { expect(chessboard.get_square("A5").valid_moves).to contain_exactly("A6", "B6", "B5", "B4", "A4") }
     end
+
+    describe "#in_checkmate?" do
+      context "when no friendly piece can take enemy" do 
+        before do
+          chessboard.set_square("H6", King.new(color: :white, location: "H6"))
+          chessboard.set_square("H4", Queen.new(color: :black, location: "H4"))
+        end
+
+        it { expect(chessboard.get_square("H6").in_checkmate?(chessboard)).to be_truthy }
+        it { expect(chessboard.get_square("E1").in_checkmate?(chessboard)).to be_falsey }
+      end
+
+      context "when friendly piece can take enemy" do
+        before do
+          chessboard.set_square("H6", King.new(color: :white, location: "H6"))
+          chessboard.set_square("H4", Queen.new(color: :black, location: "H3"))
+        end
+
+        it { expect(chessboard.get_square("H6").in_checkmate?(chessboard)).to be_falsey }
+      end
+
+      context "when friendly piece can block an attack" do
+        let(:chessboard) { Chessboard.new }
+        before do
+          chessboard.clear_square("E2")
+          chessboard.set_square("E6", Rook.new(color: :black, location: "E6"))
+        end
+
+        it { expect(chessboard.get_square("E1").in_checkmate?(chessboard)).to be_falsey }
+      end
+    end
   end
 end

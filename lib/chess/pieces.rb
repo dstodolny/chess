@@ -189,11 +189,21 @@ module Chess
     end
 
     def in_check?(chessboard, san)
+      friends = chessboard.get_pieces(color)
+
+      square = chessboard.get_square(san)
+
+      if square.is_a?(Piece) && friends.any? { |friend| friend.valid_move?(chessboard, san) }
+        chessboard.set_square(san, " ")
+      end
+
       enemies = chessboard.get_pieces(other_color(color))
       pawns = enemies.select { |piece| piece.instance_of?(Pawn) }
 
-      enemies.any? { |enemy| enemy.valid_move?(chessboard, san) } ||
+      result = enemies.any? { |enemy| enemy.valid_move?(chessboard, san) } ||
         pawns.any? { |pawn| pawn.attack_squares.include?(san) }
+      chessboard.set_square(san, square)
+      result
     end
 
     def can_castle?(chessboard, to)
@@ -214,6 +224,13 @@ module Chess
       x, y = get_xy(location)
 
       @king_moves.map { |move| get_san([move[0] + x, move[1] + y]) }.compact
+    end
+
+    def in_checkmate?(chessboard)
+      return true if in_check?(chessboard, location) && 
+        valid_moves.all? { |move| valid_move?(chessboard, move) && 
+        in_check?(chessboard, move) }
+      false
     end
   end
 end
