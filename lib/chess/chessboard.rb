@@ -7,7 +7,7 @@ module Chess
 
     def initialize(input = {})
       @board = input.fetch(:board, default_board)
-      @moves = 3
+      @moves = 1
     end
 
     def move(from, to)
@@ -15,11 +15,12 @@ module Chess
       return false unless from != to && from.match(valid_san) && to.match(valid_san)
       @moves += 1
       piece = get_square(from)
-
+      return false unless piece.valid_move?(self, to)
       set_square(to, piece)
       piece.move_to(self, to)
       clear_square(from)
       set_square(to, Queen.new(color: piece.color, location: to)) if piece.to_be_promoted?
+      true
     end
 
     def get_square(san)
@@ -84,8 +85,10 @@ module Chess
     end
 
     def display
+      ("A".."H").each { |e| print " #{e}" }
+      puts ""
       8.times do |row|
-        print "#{8 - row}" + board[-1 - row].join(" ")
+        print "#{8 - row}" + board[-1 - row].join(" ") + " #{8 - row}"
         puts ""
       end
       ("A".."H").each { |e| print " #{e}" }

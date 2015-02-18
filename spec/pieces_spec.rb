@@ -480,6 +480,22 @@ module Chess
 
         it { expect(chessboard.get_square("E1").in_checkmate?(chessboard)).to be_falsey }
       end
+
+      context "while fool's checkmate" do
+        before do
+          chessboard.move("F2", "F3")
+          chessboard.move("E7", "E6")
+          chessboard.move("G2", "G4")
+          chessboard.move("D8", "H4")
+        end
+
+        it do
+          king = chessboard.get_square("E1")
+          p king.valid_moves.select { |move| king.valid_move?(chessboard, move) }
+          p king.in_check?(chessboard, "F2")
+          expect(king.in_checkmate?(chessboard)).to be_truthy
+        end
+      end
     end
   end
 end

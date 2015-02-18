@@ -199,21 +199,21 @@ module Chess
       super
     end
 
-    def in_check?(chessboard, san)
-      friends = chessboard.get_pieces(color)
+    def in_check?(chessboard, san = location)
+      # friends = chessboard.get_pieces(color)
 
       square = chessboard.get_square(san)
 
-      if square.is_a?(Piece) && friends.any? { |friend| friend.valid_move?(chessboard, san) }
-        chessboard.set_square(san, " ")
-      end
+      # if square.is_a?(Piece) && friends.any? { |friend| friend.valid_move?(chessboard, san) }
+      #   chessboard.set_square(san, " ")
+      # end
 
       enemies = chessboard.get_pieces(other_color(color))
       pawns = enemies.select { |piece| piece.instance_of?(Pawn) }
 
       result = enemies.any? { |enemy| enemy.valid_move?(chessboard, san) } ||
         pawns.any? { |pawn| pawn.attack_squares.include?(san) }
-      chessboard.set_square(san, square)
+      # chessboard.set_square(san, square)
       result
     end
 
@@ -238,9 +238,10 @@ module Chess
     end
 
     def in_checkmate?(chessboard)
-      return true if in_check?(chessboard, location) && 
-        valid_moves.all? { |move| valid_move?(chessboard, move) && 
-        in_check?(chessboard, move) }
+      friends = chessboard.get_pieces(color)
+      return true if in_check?(chessboard, location) &&
+        valid_moves.select { |move| valid_move?(chessboard, move) }.all? { |move| in_check?(chessboard, move) } &&
+        !friends.any? { |friend| friend.valid_move?(chessboard, move) }
       false
     end
   end
