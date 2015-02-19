@@ -47,6 +47,12 @@ module Chess
       neighbours = [(letter.upcase.ord - 1).chr, (letter.upcase.ord + 1).chr]
       neighbours.delete_if { |letter| letter < "A" || letter > "H" }
     end
+
+    def all_moves
+      moves = []
+      ("A".."H").each { |let| 1.upto(8) { |num| moves << let + num.to_s } }
+      moves
+    end
   end
 end
 

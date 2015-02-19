@@ -465,7 +465,7 @@ module Chess
       context "when friendly piece can take enemy" do
         before do
           chessboard.set_square("H6", King.new(color: :white, location: "H6"))
-          chessboard.set_square("H4", Queen.new(color: :black, location: "H3"))
+          chessboard.set_square("H3", Queen.new(color: :black, location: "H3"))
         end
 
         it { expect(chessboard.get_square("H6").in_checkmate?(chessboard)).to be_falsey }
@@ -491,8 +491,6 @@ module Chess
 
         it do
           king = chessboard.get_square("E1")
-          p king.valid_moves.select { |move| king.valid_move?(chessboard, move) }
-          p king.in_check?(chessboard, "F2")
           expect(king.in_checkmate?(chessboard)).to be_truthy
         end
       end

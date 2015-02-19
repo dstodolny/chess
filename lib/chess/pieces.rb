@@ -64,7 +64,7 @@ module Chess
       dy = distance(y_from, y_to)
 
       if dx == 0 && dy == 1 && (side * (y_to - y_from)) > 0 && destination == " "
-      elsif dx == 0 && dy == 2 && (y_from == 1 || y_from == 6)
+      elsif dx == 0 && dy == 2 && (y_from == 1 || y_from == 6) && destination == " "
       elsif dx == 1 && dy == 1 && enemy?(destination)
       elsif dx == 1 && dy == 1 && destination == " " && en_passant?(chessboard, to)
       else
@@ -200,20 +200,13 @@ module Chess
     end
 
     def in_check?(chessboard, san = location)
-      # friends = chessboard.get_pieces(color)
-
       square = chessboard.get_square(san)
-
-      # if square.is_a?(Piece) && friends.any? { |friend| friend.valid_move?(chessboard, san) }
-      #   chessboard.set_square(san, " ")
-      # end
 
       enemies = chessboard.get_pieces(other_color(color))
       pawns = enemies.select { |piece| piece.instance_of?(Pawn) }
 
       result = enemies.any? { |enemy| enemy.valid_move?(chessboard, san) } ||
         pawns.any? { |pawn| pawn.attack_squares.include?(san) }
-      # chessboard.set_square(san, square)
       result
     end
 
@@ -239,10 +232,50 @@ module Chess
 
     def in_checkmate?(chessboard)
       friends = chessboard.get_pieces(color)
-      return true if in_check?(chessboard, location) &&
-        valid_moves.select { |move| valid_move?(chessboard, move) }.all? { |move| in_check?(chessboard, move) } &&
-        !friends.any? { |friend| friend.valid_move?(chessboard, move) }
-      false
+      enemies = chessboard.get_pieces(other_color(color))
+      return false unless in_check?(chessboard, location)
+
+      friends_result = friends.any? do |friend|
+        all_moves.any? do |move|
+          if friend.valid_move?(chessboard, move)
+            square = chessboard.get_square(move)
+            loc = friend.location
+
+            chessboard.set_square(move, friend)
+            chessboard.clear_square(friend.location)
+            friend.move_to(chessboard, move)
+
+            check = in_check?(chessboard, location)
+
+            chessboard.set_square(loc, friend)
+            chessboard.set_square(move, square)
+            friend.move_to(chessboard, loc)
+
+            if check == false
+              true
+            end
+          end
+        end
+      end
+      
+      # king_result = valid_moves.all? do |move|
+      #   square = chessboard.get_square(move)
+      #   loc = location
+
+      #   chessboard.set_square(move, self)
+      #   chessboard.clear_square(location)
+      #   move_to(chessboard, move)
+
+      #   check = in_check?(chessboard, move)
+      #   chessboard.set_square(loc, self)
+      #   chessboard.set_square(move, square)
+      #   move_to(chessboard, loc)
+      #   check
+      # end
+
+      !friends_result
+      # valid_moves.select { |move| valid_move?(chessboard, move) }.all? { |move| in_check?(chessboard, move) } 
+      # false
     end
   end
 end
