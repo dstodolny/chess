@@ -86,7 +86,7 @@ module Chess
       side = color == :black ? 1 : -1
 
       piece = chessboard.board[y_to + side][x_to]
-      return true if piece.instance_of?(Pawn) && piece.color != color && piece.passable == true && piece.passable_turn == chessboard.moves
+      return true if piece.instance_of?(Pawn) && piece.color != color && piece.passable == true && piece.passable_turn == chessboard.moves - 1
       false
     end
 

@@ -124,6 +124,7 @@ module Chess
         before do
           chessboard.set_square("C4", black_pawn)
           chessboard.move("D2", "D4")
+          chessboard.moves += 1
         end
 
         it { expect(black_pawn.valid_move?(chessboard, "D3")).to be_truthy }
@@ -134,6 +135,7 @@ module Chess
         before do
           chessboard.set_square("G5", white_pawn)
           chessboard.move("F7", "F5")
+          chessboard.moves += 1
         end
 
         it { expect(white_pawn.valid_move?(chessboard, "F6")).to be_truthy }
@@ -146,6 +148,7 @@ module Chess
           chessboard.move("D2", "D4")
           chessboard.move("A7", "A6") # black's not commiting en-passent
           chessboard.move("A2", "A3") # white's turn
+          chessboard.moves += 1
         end
 
         it { expect(black_pawn.valid_move?(chessboard, "D3")).to be_falsey }
