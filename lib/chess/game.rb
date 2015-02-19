@@ -14,6 +14,7 @@ module Chess
       loop do
         p current_player.king(chessboard).in_checkmate?(chessboard)
         if current_player.king(chessboard).in_checkmate?(chessboard)
+          chessboard.display
           puts "CHECKMATE!"
           puts "#{other_player.name} wins the game"
           break
@@ -39,11 +40,24 @@ module Chess
     def make_move(input)
       move = input.match(/([a-hA-H][1-8]).*([a-hA-H][1-8])/)
       return false if move.nil?
-      from = move[1]
-      to = move[2]
-      square = chessboard.get_square(from.upcase)
+      from = move[1].upcase
+      to = move[2].upcase
+      square = chessboard.get_square(from)
       return false if  square == " " || square.color != @current_player.color
-      chessboard.move(from.upcase, to.upcase)
+
+      # test if king will be in check
+      destination = chessboard.get_square(to)
+
+      chessboard.set_square(to, square)
+      chessboard.clear_square(from)
+      square.move_to(chessboard, to)
+      check = @current_player.king(chessboard).in_check?(chessboard)
+      chessboard.set_square(from, square)
+      chessboard.set_square(to, destination)
+      square.move_to(chessboard, from)
+
+      return false if check
+      chessboard.move(from, to)
     end
   end
 end

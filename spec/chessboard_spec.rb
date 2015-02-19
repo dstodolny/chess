@@ -39,17 +39,6 @@ module Chess
         it { expect(chessboard.get_square("C3").moves).to eq 1 }
       end
 
-      context "with a pawn reaching the end of the board" do
-        let(:white_pawn) { Pawn.new(color: :white, location: "A7") }
-        before do
-          chessboard.set_square("A7", white_pawn)
-          chessboard.move("A7", "B8")
-        end
-
-        it { expect(chessboard.get_square("B8")).to be_instance_of(Queen) }
-        it { expect(chessboard.get_square("B8").color).to eq :white }
-      end
-
       context "with invalid move" do
         it { expect(chessboard.move("C3", "C3")).to be_falsey }
         it { expect(chessboard.move("I9", "I8")).to be_falsey }

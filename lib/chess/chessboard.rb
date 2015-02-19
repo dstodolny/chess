@@ -19,7 +19,26 @@ module Chess
       set_square(to, piece)
       piece.move_to(self, to)
       clear_square(from)
-      set_square(to, Queen.new(color: piece.color, location: to)) if piece.to_be_promoted?
+
+      if piece.to_be_promoted?
+        while true
+          print "Choose a piece(Queen, Rook, Bishop, Knight): "
+          new_piece = gets.chomp.downcase
+          break if new_piece == "queen" || new_piece == "rook" || new_piece == "bishop" || new_piece == "knight"
+          puts "Invalid piece. Try again."
+        end
+
+        case new_piece
+        when "queen"
+          set_square(to, Queen.new(color: piece.color, location: to))
+        when "rook"
+          set_square(to, Rook.new(color: piece.color, location: to))
+        when "bishop"
+          set_square(to, Bishop.new(color: piece.color, location: to))
+        when "knight"
+          set_square(to, Knight.new(color: piece.color, location: to))
+        end
+      end
       true
     end
 

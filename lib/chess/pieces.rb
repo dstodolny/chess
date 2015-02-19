@@ -232,7 +232,6 @@ module Chess
 
     def in_checkmate?(chessboard)
       friends = chessboard.get_pieces(color)
-      enemies = chessboard.get_pieces(other_color(color))
       return false unless in_check?(chessboard, location)
 
       friends_result = friends.any? do |friend|
@@ -251,31 +250,11 @@ module Chess
             chessboard.set_square(move, square)
             friend.move_to(chessboard, loc)
 
-            if check == false
-              true
-            end
+            true if check == false
           end
         end
       end
-      
-      # king_result = valid_moves.all? do |move|
-      #   square = chessboard.get_square(move)
-      #   loc = location
-
-      #   chessboard.set_square(move, self)
-      #   chessboard.clear_square(location)
-      #   move_to(chessboard, move)
-
-      #   check = in_check?(chessboard, move)
-      #   chessboard.set_square(loc, self)
-      #   chessboard.set_square(move, square)
-      #   move_to(chessboard, loc)
-      #   check
-      # end
-
       !friends_result
-      # valid_moves.select { |move| valid_move?(chessboard, move) }.all? { |move| in_check?(chessboard, move) } 
-      # false
     end
   end
 end
