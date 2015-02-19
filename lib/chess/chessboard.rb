@@ -16,6 +16,15 @@ module Chess
       @moves += 1
       piece = get_square(from)
       return false unless piece.valid_move?(self, to)
+
+      # en-passant
+      x_from, y_from = get_xy(from)
+      x_to, y_to = get_xy(to)
+      side = piece.color == :white ? 1 : -1
+      if piece.instance_of?(Pawn) && (x_to - x_from).abs == 1 && (y_to - y_from).abs == 1 && get_square(to) == " "
+        board[y_to - side][x_to] = " "
+      end
+
       set_square(to, piece)
       piece.move_to(self, to)
       clear_square(from)

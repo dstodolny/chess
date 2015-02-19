@@ -74,8 +74,10 @@ module Chess
     end
 
     def move_to(chessboard, to)
-      _, y_from = get_xy(location)
-      _, y_to = get_xy(to)
+      x_from, y_from = get_xy(location)
+      x_to, y_to = get_xy(to)
+      side = color == :white ? 1 : -1
+
       @passable = (y_from - y_to).abs == 2 ? true : false
       @passable_turn = chessboard.moves if @passable
       super
