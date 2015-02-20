@@ -216,7 +216,6 @@ module Chess
       rook = chessboard.get_square(to)
 
       squares = get_sans(location, get_castling_san(to))
-      p squares
 
       if moves != 0 || rook.moves != 0
         return false

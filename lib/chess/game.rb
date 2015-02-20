@@ -12,7 +12,6 @@ module Chess
 
     def play
       loop do
-        p current_player.king(chessboard).in_checkmate?(chessboard)
         if current_player.king(chessboard).in_checkmate?(chessboard)
           chessboard.display
           puts "CHECKMATE!"
@@ -20,15 +19,35 @@ module Chess
           break
         end
 
+        puts ""
         puts "Turn #{chessboard.moves / 2}"
         chessboard.display
-        loop do
-          print "#{current_player.name}, enter your move: "
-          moved = make_move(gets.chomp)
-          break if moved
-          puts "Invalid move. Try again."
+        print "#{current_player.name}, enter your move: "
+        command = gets.chomp
+        case command
+        when "quit"
+          puts "Bye!"
+          break
+        when "save"
+          save_game
+          puts "Game saved"
+        when "load"
+          if File.exists?("saved_game")
+            load_game
+            puts "Game loaded"
+          else
+            puts "No file to load"
+          end
+        else
+          loop do
+            moved = make_move(command)
+            break if moved
+            puts "Invalid move. Try again."
+            print "#{current_player.name}, enter your move: "
+            command = gets.chomp
+          end
+          switch_players
         end
-        switch_players
       end
     end
 
@@ -59,6 +78,28 @@ module Chess
 
       return false if check
       chessboard.move(from, to)
+    end
+
+    def save_game
+      store = PStore.new('saved_game')
+      store.transaction do
+        store[:chessboard] = @chessboard
+        store[:white_player] = @white_player
+        store[:black_player] = @black_player
+        store[:current_player] = @current_player
+        store[:other_player] = @other_player
+      end
+    end
+
+    def load_game
+      store = PStore.new('saved_game')
+      store.transaction do
+        @chessboard = store[:chessboard]
+        @white_player = store[:white_player]
+        @black_player = store[:black_player]
+        @current_player = store[:current_player]
+        @other_player = store[:other_player]
+      end
     end
   end
 end

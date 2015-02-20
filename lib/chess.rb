@@ -1,4 +1,6 @@
 require_relative "chess/version"
+require 'open-uri'
+require 'pstore'
 
 module Chess
   module ChessHelper
