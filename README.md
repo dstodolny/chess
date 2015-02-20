@@ -10,18 +10,16 @@ To play the game run `bin/chess.rb` from the root directory. You can also run th
 
 The game is played on a standard 8 by 8 chessboard. The initial chessboard is shown below:
 
-`
- A B C D E F G H
-8♜ ♞ ♝ ♛ ♚ ♝ ♞ ♜ 8
-7♟ ♟ ♟ ♟ ♟ ♟ ♟ ♟ 7
-6                6
-5                5
-4                4
-3                3
-2♙ ♙ ♙ ♙ ♙ ♙ ♙ ♙ 2
-1♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖ 1
- A B C D E F G H
-`
+` A B C D E F G H  `
+`8♜ ♞ ♝ ♛ ♚ ♝ ♞ ♜ 8`
+`7♟ ♟ ♟ ♟ ♟ ♟ ♟ ♟ 7`
+`6                6`
+`5                5`
+`4                4`
+`3                3`
+`2♙ ♙ ♙ ♙ ♙ ♙ ♙ ♙ 2`
+`1♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖ 1`
+` A B C D E F G H  `
 
 The letters (A - H) and number (1 - 8) around the board are used to specify desired game moves.
 
