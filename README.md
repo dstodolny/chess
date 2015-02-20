@@ -50,4 +50,4 @@ Game play alternates between two players as one would expect with only valid mov
 
 ## Game Saves
 
-A player may save or load a game by typing "save" or "load" commands instead of moves.
+A player may save or load a game by typing `save` or `load` instead of moves.
