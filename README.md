@@ -1,31 +1,53 @@
 # Chess
 
-TODO: Write a gem description
+This is a final project from [The Odin Project](http://www.theodinproject.com/ruby-programming/ruby-final-project). Its a command-line chess clone written in TDD.
 
-## Installation
+The game follows all of [the rules of chess](http://www.chessvariants.org/d.chess/chess.html).
 
-Add this line to your application's Gemfile:
+To play the game run `bin/chess.rb` from the root directory. You can also run the test suite with `rake` from the same root directory.
 
-```ruby
-gem 'chess'
-```
+## Chessboard
 
-And then execute:
+The game is played on a standard 8 by 8 chessboard. The initial chessboard is shown below:
 
-    $ bundle
+`
+ A B C D E F G H
+8♜ ♞ ♝ ♛ ♚ ♝ ♞ ♜ 8
+7♟ ♟ ♟ ♟ ♟ ♟ ♟ ♟ 7
+6                6
+5                5
+4                4
+3                3
+2♙ ♙ ♙ ♙ ♙ ♙ ♙ ♙ 2
+1♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖ 1
+ A B C D E F G H
+`
 
-Or install it yourself as:
+The letters (A - H) and number (1 - 8) around the board are used to specify desired game moves.
 
-    $ gem install chess
+## Game Moves
 
-## Usage
+A move is entered as two positions separated by something or not. The following are valid ways to move a white pawn on the first game move:
+* A2 A3
+* a2 a3
+* A2 to A3
+* A2, A3
+* A2A3
 
-TODO: Write usage instructions here
+### Illegal moves
 
-## Contributing
+The game is designed to detect invalid moves. When a move is not valid the player will be asked to type another move.
 
-1. Fork it ( https://github.com/[my-github-username]/chess/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+After two valid board positions are detected, further checks are made.
+
+### Special moves
+
+All special moves in a chess game (castling, en passant, promotion, and a pawn's double step on its first move) are recognized and allowed during game play.
+
+## Game Play
+
+Game play alternates between two players as one would expect with only valid moves being allowed. Play continues until one of the kings is in checkmate.
+
+## Game Saves
+
+A player may save or load a game by typing "save" or "load" commands instead of moves.
