@@ -1,6 +1,6 @@
 # Chess
 
-This is a final project from [The Odin Project](http://www.theodinproject.com/ruby-programming/ruby-final-project). Its a command-line chess clone written in TDD.
+This is a final project for [The Odin Project](http://www.theodinproject.com/ruby-programming/ruby-final-project). Its a command-line chess clone written in TDD.
 
 The game follows all of [the rules of chess](http://www.chessvariants.org/d.chess/chess.html).
 
