@@ -13,10 +13,36 @@ module Chess
     def move(from, to)
       valid_san = /^[a-hA-H][1-8]$/
       return false unless from != to && from.match(valid_san) && to.match(valid_san)
-      @moves += 1
-      piece = get_square(from)
-      return false unless piece.valid_move?(self, to)
 
+      piece = get_square(from)
+
+      # castling
+      destination = get_square(to)
+      if piece.instance_of?(King) && destination.instance_of?(Rook) && piece.color == destination.color
+        if piece.can_castle?(self, to)
+          if to[0] == "H"
+            king_position = "G" + to[1]
+            rook_position = "F" + to[1]
+          else
+            king_position = "C" + to[1]
+            rook_position = "D" + to[1]
+          end
+          set_square(king_position, piece)
+          get_square(king_position).moves += 1
+          set_square(rook_position, destination)
+          get_square(rook_position).moves += 1
+          clear_square(from)
+          clear_square(to)
+          @moves += 1
+          return true
+        else
+          return false
+        end
+      end
+
+      return false unless piece.valid_move?(self, to)
+      @moves += 1
+      
       # en-passant
       x_from, y_from = get_xy(from)
       x_to, y_to = get_xy(to)

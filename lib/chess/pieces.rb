@@ -216,8 +216,11 @@ module Chess
       rook = chessboard.get_square(to)
 
       squares = get_sans(location, get_castling_san(to))
+      p squares
 
       if moves != 0 || rook.moves != 0
+        return false
+      elsif squares[1..-1].any? { |square| chessboard.get_square(square).is_a?(Piece) }
         return false
       elsif squares.any? { |square| in_check?(chessboard, square) }
         return false

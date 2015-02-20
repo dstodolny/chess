@@ -28,7 +28,6 @@ module Chess
           break if moved
           puts "Invalid move. Try again."
         end
-        puts "OK"
         switch_players
       end
     end
@@ -51,10 +50,12 @@ module Chess
       chessboard.set_square(to, square)
       chessboard.clear_square(from)
       square.move_to(chessboard, to)
+      square.moves -= 1
       check = @current_player.king(chessboard).in_check?(chessboard)
       chessboard.set_square(from, square)
       chessboard.set_square(to, destination)
       square.move_to(chessboard, from)
+      square.moves -= 1
 
       return false if check
       chessboard.move(from, to)

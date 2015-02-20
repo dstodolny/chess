@@ -36,7 +36,11 @@ module Chess
     end
 
     def get_sans(from, to) # get list of standard algebraic notation coordinates
-      (from[0]..to[0]).to_a.map { |e| e + from[1] }
+      if from[0] < to[0]
+        (from[0]..to[0]).to_a.map { |e| e + from[1] }
+      else
+        (to[0]..from[0]).to_a.map { |e| e + from[1] }.reverse
+      end
     end
 
     def get_castling_san(rook_position)
